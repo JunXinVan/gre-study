@@ -95,13 +95,13 @@ function pickMode(list){
     const rest = remaining(list).length, gone = DATA[list].length - rest;
     return `<p style="color:#e67e22;font-size:13.5px;margin-top:14px">—— 掌握剔除模式 · 大词库剩余 ${rest} / ${DATA[list].length} 词 ——</p>
     <div class="mode-btns">
-      <button style="border-color:#e67e22;color:#e67e22" onclick="start60(list,'quiz')">🎲 随机 60 词 · 选择题<small>每次随机抽 · 点「剔除」永久移出词库</small></button>
-      <button style="border-color:#e67e22;color:#e67e22" onclick="start60(list,'card')">🎲 随机 60 词 · 翻卡<small>翻面自评 · 掌握即剔除</small></button>
+      <button style="border-color:#e67e22;color:#e67e22" onclick="start60('${list}','quiz')">🎲 随机 60 词 · 选择题<small>每次随机抽 · 点「剔除」永久移出词库</small></button>
+      <button style="border-color:#e67e22;color:#e67e22" onclick="start60('${list}','card')">🎲 随机 60 词 · 翻卡<small>翻面自评 · 掌握即剔除</small></button>
     </div>
     <div class="mode-btns">
-      <button style="border-color:#e67e22;color:#e67e22;max-width:100%" onclick="startGauntlet(list)">🏆 通关模式 · 随机 60 词<small>先通关四选一 → 再通关翻卡，两阶段都可重来 · 掌握可剔除</small></button>
+      <button style="border-color:#e67e22;color:#e67e22;max-width:100%" onclick="startGauntlet('${list}')">🏆 通关模式 · 随机 60 词<small>先通关四选一 → 再通关翻卡，两阶段都可重来 · 掌握可剔除</small></button>
     </div>`
-    + (gone ? `<button class="back" onclick="resetMastered(list)">↩ 误剔除了？点这里恢复（已剔除 ${gone} 词）</button>` : '');
+    + (gone ? `<button class="back" onclick="resetMastered('${list}')">↩ 误剔除了？点这里恢复（已剔除 ${gone} 词）</button>` : '');
   })() : '';
   root.innerHTML = `<div style="text-align:center;padding:8px 0 4px">
     <h2 style="margin-bottom:4px">${label(list)}</h2>
@@ -132,7 +132,7 @@ function start60(list, m){
   gauntlet = null;
   const rest = shuffle(remaining(list).slice());
   if (!rest.length){
-    root.innerHTML = `<div class="done"><div class="big">🏆</div><h2>${DATA[list].length} 词全部掌握！</h2><p>大词库已清空，太狠了。</p><div class="list-btns"><button onclick="resetMastered()">↩ 全部恢复，再来一轮</button><button onclick="home()">返回首页</button></div></div>`;
+    root.innerHTML = `<div class="done"><div class="big">🏆</div><h2>${DATA[list].length} 词全部掌握！</h2><p>大词库已清空，太狠了。</p><div class="list-btns"><button onclick="resetMastered('${list}')">↩ 全部恢复，再来一轮</button><button onclick="home()">返回首页</button></div></div>`;
     return;
   }
   start(list, rest.slice(0, 60), m, true);
@@ -155,7 +155,7 @@ function startGauntlet(list){
   gauntlet = null;
   const rest = shuffle(remaining(list).slice());
   if (!rest.length){
-    root.innerHTML = `<div class="done"><div class="big">🏆</div><h2>${DATA[list].length} 词全部掌握！</h2><p>大词库已清空，太狠了。</p><div class="list-btns"><button onclick="resetMastered()">↩ 全部恢复，再来一轮</button><button onclick="home()">返回首页</button></div></div>`;
+    root.innerHTML = `<div class="done"><div class="big">🏆</div><h2>${DATA[list].length} 词全部掌握！</h2><p>大词库已清空，太狠了。</p><div class="list-btns"><button onclick="resetMastered('${list}')">↩ 全部恢复，再来一轮</button><button onclick="home()">返回首页</button></div></div>`;
     return;
   }
   const words = rest.slice(0, 60);
